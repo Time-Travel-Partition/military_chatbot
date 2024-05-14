@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:military_chatbot/services/api.dart';
 
 class ChatScreen extends StatefulWidget {
   final int emotion;
@@ -10,6 +11,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final APIService _apiService = APIService();
   final TextEditingController _messageController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
@@ -44,8 +46,10 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void sendMessage() {
+  Future<void> sendMessage() async {
     if (_messageController.text.isNotEmpty) {
+      // API 엔드포인트로 POST 요청
+      await _apiService.post(_messageController.text);
       setState(() {
         _messages.add({
           'content': _messageController.text,
