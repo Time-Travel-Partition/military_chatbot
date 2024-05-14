@@ -46,11 +46,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void sendMessage() {
     if (_messageController.text.isNotEmpty) {
-      _messages.add({
-        'content': _messageController.text,
-        'isCurrentUser': true,
+      setState(() {
+        _messages.add({
+          'content': _messageController.text,
+          'isCurrentUser': true,
+        });
+        _messageController.clear();
       });
-      _messageController.clear();
       receiveMessage();
       scrollDown();
     }
@@ -58,9 +60,11 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void receiveMessage() {
     // Reply with a static message "hi"
-    _messages.add({
-      'content': 'hi',
-      'isCurrentUser': false,
+    setState(() {
+      _messages.add({
+        'content': 'hi',
+        'isCurrentUser': false,
+      });
     });
     scrollDown();
   }
