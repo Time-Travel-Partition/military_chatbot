@@ -48,8 +48,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Future<void> sendMessage() async {
     if (_messageController.text.isNotEmpty) {
-      // API 엔드포인트로 POST 요청
-      await _apiService.post(_messageController.text);
       setState(() {
         _messages.add({
           'content': _messageController.text,
@@ -62,11 +60,12 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void receiveMessage() {
-    // Reply with a static message "hi"
+  void receiveMessage() async {
+    // API 엔드포인트로 POST 요청
+    String response = await _apiService.post(_messageController.text);
     setState(() {
       _messages.add({
-        'content': 'hi',
+        'content': response,
         'isCurrentUser': false,
       });
     });
